@@ -28,9 +28,24 @@ Exception
 end;
 
 
+------------------------------------------------------------------------
+create or replace procedure SP_verificaproduto2 (codprod number)
+as
+descricao TB_PRODUTO.DESCRICAO%type;
+cont number;
+Begin
 
+select descricao into descricao from tb_produto
+where codproduto = codprod;
 
-------------------------------------
-select * from tb_pedido 
-inner join TB_ITEM_PEDIDO on tb_pedido.NUMPEDIDO=TB_ITEM_PEDIDO.NUMPEDIDO
-inner join tb_produto on TB_ITEM_PEDIDO.CODPRODUTO=tb_produto.CODPRODUTO;
+select count(numpedido) into cont from tb_item_pedido
+where codproduto = codprod;
+
+  if cont = 0 then
+    insert into tablog values(sysdate, codprod || ' - ' || descricao, user);
+    delete from tb_produto where CODPRODUTO = codprod;
+  end if;
+Exception
+  when no_data_found then
+    insert into tab_erro values (sysdate,codprod || ' - Código do produto inexistente');
+end;
