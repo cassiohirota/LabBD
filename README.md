@@ -49,3 +49,6 @@ Exception
   when no_data_found then
     insert into tab_erro values (sysdate,codprod || ' - Código do produto inexistente');
 end;
+----------------------------------------------------------------------
+alter table tb_produto add qtdestoq number(5);
+update tb_produto set QTDESTOQ = 120;
