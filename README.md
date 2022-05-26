@@ -53,3 +53,8 @@ end;
 ----------------------------------------------------------------------
 alter table tb_produto add qtdestoq number(5);
 update tb_produto set QTDESTOQ = 120;
+
+---------------------------------------------
+
+Function ............ return varchar2
+to_char(p_data, 'dd/mm/yyyy:HH24:mi:ss')
